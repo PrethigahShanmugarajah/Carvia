@@ -1,35 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import Navbar from "./components/Navbar";
+import { Route, Routes, useLocation } from "react-router-dom";
+import Home from "./pages/Home";
+import CarDetails from "./pages/CarDetails";
+import Cars from "./pages/Cars";
+import MyBookings from "./pages/MyBookings";
+import Footer from "./components/Footer";
+import Layout from "./pages/owner/Layout";
+import Dashboard from "./pages/owner/Dashboard";
+import AddCar from "./pages/owner/AddCar";
+import ManageCars from "./pages/owner/ManageCars";
+import ManageBookings from "./pages/owner/ManageBookings";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [showLogin, setShowLogin] = useState(false);
+  const isOwnerPath = useLocation().pathname.startsWith("/owner");
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {!isOwnerPath && <Navbar setShowLogin={setShowLogin} />}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/car-details/:id" element={<CarDetails />} />
+        <Route path="/cars" element={<Cars />} />
+        <Route path="/my-bookings" element={<MyBookings />} />
+        <Route path="/owner" element={<Layout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="add-car" element={<AddCar />} />
+          <Route path="manage-cars" element={<ManageCars />} />
+          <Route path="manage-bookings" element={<ManageBookings />} />
+        </Route>
+      </Routes>
+      <Footer />
+      <h1>App</h1>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
