@@ -8,15 +8,15 @@ import Newsletter from "../components/Newsletter";
 
 const Home = () => {
   return (
-    <div>
-      <h1>Home</h1>
+    <>
+      {/* <h1>Home</h1> */}
       <Hero />
       {/* <CarCard /> */}
       <FeaturedSection />
       <Banner />
       <Testimonial />
       <Newsletter />
-    </div>
+    </>
   );
 };
 

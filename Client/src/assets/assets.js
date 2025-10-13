@@ -3,9 +3,6 @@ import gmail_logo from "./gmail_logo.svg";
 import facebook_logo from "./facebook_logo.svg";
 import instagram_logo from "./instagram_logo.svg";
 import twitter_logo from "./twitter_logo.svg";
-import menu_icon from "./menu_icon.svg";
-import search_icon from "./search_icon.svg";
-import close_icon from "./close_icon.svg";
 import users_icon from "./users_icon.svg";
 import car_icon from "./car_icon.svg";
 import location_icon from "./location_icon.svg";
@@ -32,7 +29,7 @@ import calendar_icon_colored from "./calendar_icon_colored.svg";
 import location_icon_colored from "./location_icon_colored.svg";
 import testimonial_image_1 from "./testimonial_image_1.png";
 import testimonial_image_2 from "./testimonial_image_2.png";
-import main_car from "./main_car.png";
+import Main_Car from "./Main_Car.png";
 import banner_car_image from "./banner_car_image.png";
 import user_profile from "./user_profile.png";
 import upload_icon from "./upload_icon.svg";
@@ -49,9 +46,6 @@ export const assets = {
   facebook_logo,
   instagram_logo,
   twitter_logo,
-  menu_icon,
-  search_icon,
-  close_icon,
   users_icon,
   edit_icon,
   car_icon,
@@ -78,7 +72,7 @@ export const assets = {
   filter_icon,
   testimonial_image_1,
   testimonial_image_2,
-  main_car,
+  Main_Car,
   banner_car_image,
   car_image1,
   upload_icon,
