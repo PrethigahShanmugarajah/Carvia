@@ -9,9 +9,7 @@ import Newsletter from "../components/Newsletter";
 const Home = () => {
   return (
     <>
-      {/* <h1>Home</h1> */}
       <Hero />
-      {/* <CarCard /> */}
       <FeaturedSection />
       <Banner />
       <Testimonial />
