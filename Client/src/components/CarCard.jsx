@@ -18,7 +18,7 @@ const CarCard = ({ car }) => {
       >
         <img
           src={car.image}
-          alt="Car Image"
+          alt={`${car.brand} ${car.model}`}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
 
