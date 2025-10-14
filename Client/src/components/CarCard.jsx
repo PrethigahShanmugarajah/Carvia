@@ -51,25 +51,25 @@ const CarCard = ({ car }) => {
         <div className="mt-4 grid grid-cols-2 gap-y-2 text-gray-600">
           <div className="flex items-center text-sm text-muted-foreground">
             {/* <img src={assets.users_icon} alt="" className="h-4 mr-2" /> */}
-            <User className="h-4 mr-2" />
+            <User className="h-4 mr-2 text-primary" />
             <span>{car.seating_capacity} Seats</span>
           </div>
 
           <div className="flex items-center text-sm text-muted-foreground">
             {/* <img src={assets.fuel_icon} alt="" className="h-4 mr-2" /> */}
-            <Fuel className="h-4 mr-2" />
+            <Fuel className="h-4 mr-2 text-primary" />
             <span>{car.fuel_type} </span>
           </div>
 
           <div className="flex items-center text-sm text-muted-foreground">
             {/* <img src={assets.car_icon} alt="" className="h-4 mr-2" /> */}
-            <Car className="h-4 mr-2" />
+            <Car className="h-4 mr-2 text-primary" />
             <span>{car.transmission} </span>
           </div>
 
           <div className="flex items-center text-sm text-muted-foreground">
             {/* <img src={assets.location_icon} alt="" className="h-4 mr-2" /> */}
-            <MapPin className="h-4 mr-2" />
+            <MapPin className="h-4 mr-2 text-primary" />
             <span>{car.location} </span>
           </div>
         </div>
