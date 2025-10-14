@@ -10,9 +10,13 @@ const FeaturedSection = () => {
   return (
     <div className="flex flex-col items-center py-24 px-6 md:px-16 lg:px-24 xl:px-32">
       <div>
-        <Title
+        {/* <Title
           title="Featured Vehicles"
           subTitle="Explore our selection of premium vehicles available for your next adventure."
+        /> */}
+        <Title
+          title="Latest Arrivals"
+          subTitle="Check out the newest additions to our luxury car collection, ready for you to drive."
         />
       </div>
 
