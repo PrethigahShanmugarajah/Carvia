@@ -46,7 +46,7 @@ const Dashboard = () => {
     <div className="px-4 pt-10 md:px-10 flex-1">
       <Title
         title="Admin Dashboard"
-        subTitle="Monitor overall platform performance includiong total cars, bookings, revenue, and recent activities"
+        subTitle="Overview of your fleet, bookings, revenue, and latest customer activity."
       />
 
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 my-8 max-w-3xl">
