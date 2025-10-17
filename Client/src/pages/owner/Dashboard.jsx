@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { assets, dummyDashboardData } from "../../assets/assets";
 import { AlertCircle, Car, CheckCircle, List } from "lucide-react";
 import Title from "../../components/owner/Title";
+import { useAppContext } from "../../context/AppContext";
+import toast from "react-hot-toast";
 
 const Dashboard = () => {
-  const currency = import.meta.env.VITE_CURRENCY;
+  const { axios, currency, isOwner } = useAppContext();
 
   const [data, setData] = useState({
     totalCars: 0,
@@ -38,8 +40,24 @@ const Dashboard = () => {
     },
   ];
 
+  const fetchDashboardData = async () => {
+    try {
+      const { data } = await axios.get("/api/owner/dashboard");
+
+      if (data.success) {
+        setData(data.dashboardData);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   useEffect(() => {
-    setData(dummyDashboardData);
+    if (isOwner) {
+      fetchDashboardData();
+    }
   }, []);
 
   return (
@@ -88,10 +106,12 @@ const Dashboard = () => {
 
                 <div>
                   <p>
-                    {booking.car.brand} {booking.car.model}
+                    {/* {booking.car.brand} {booking.car.model} */}
+                    {booking.brand} {booking.model}
                   </p>
                   <p className="text-sm text-gray-500">
-                    {booking.createdAt.split("T")[0]}
+                    {/* {booking.createdAt.split("T")[0]} */}
+                    {new Date(booking.pickupDate).toISOString().split("T")[0]}
                   </p>
                 </div>
               </div>
@@ -101,7 +121,9 @@ const Dashboard = () => {
                   {currency} {booking.price}
                 </p>
                 <p className="px-3 py-0.5 border border-borderColor rounded-full text-sm">
-                  {booking.status}
+                  {/* {booking.status} */}
+                  {booking.status.charAt(0).toUpperCase() +
+                    booking.status.slice(1)}
                 </p>
               </div>
             </div>

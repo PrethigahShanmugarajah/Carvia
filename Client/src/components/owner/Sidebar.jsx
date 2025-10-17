@@ -13,6 +13,8 @@ import {
   List,
   PlusSquare,
 } from "lucide-react";
+import { useAppContext } from "../../context/AppContext";
+import toast from "react-hot-toast";
 
 export const ownerMenuLinks = [
   {
@@ -42,13 +44,29 @@ export const ownerMenuLinks = [
 ];
 
 const Sidebar = () => {
-  const user = dummyUserData;
+  // const user = dummyUserData;
+  const { user, axios, fetchUser } = useAppContext();
+
   const location = useLocation();
   const [image, setImage] = useState("");
 
   const updateImage = async () => {
-    user.image = URL.createObjectURL(image);
-    setImage("");
+    try {
+      const formData = new FormData();
+      formData.append("image", image);
+
+      const { data } = await axios.post("/api/owner/update-image", formData);
+
+      if (data.success) {
+        fetchUser();
+        toast.success(data.message);
+        setImage("");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -82,7 +100,10 @@ const Sidebar = () => {
       </div>
 
       {image && (
-        <button className="absolute top-0 right-0 flex p-2 gap-1 bg-primary/10 text-primary cursor-pointer">
+        <button
+          className="absolute top-0 right-0 flex p-2 gap-1 bg-primary/10 text-primary cursor-pointer"
+          onClick={updateImage}
+        >
           Save{" "}
           {/* <img
             src={assets.check_icon}
@@ -90,7 +111,7 @@ const Sidebar = () => {
             onClick={updateImage}
             alt=""
           /> */}
-          <Check className="w-3.5 h-3.5 cursor-pointer" onClick={updateImage} />
+          <Check className="w-3.5 h-3.5 cursor-pointer" />
         </button>
       )}
 

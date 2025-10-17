@@ -2,6 +2,7 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import connectDB from "../configs/db.js";
 
 /* JWT Token */
 const generateToken = (userId) => {
@@ -134,7 +135,7 @@ export const loginUser = async (req, res) => {
   }
 };
 
-/* ---------------- GET USER DATA[ID] ---------------- */
+/* ---------------- GET USER DATA USING TOKEN JWT [ID] ---------------- */
 export const getUserData = async (req, res) => {
   try {
     const { user } = req;
@@ -149,6 +150,23 @@ export const getUserData = async (req, res) => {
   } catch (error) {
     console.error("Get User Data Error:", error.message);
 
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+/* ---------------- GET ALL CAR LIST ---------------- */
+export const getCars = async (req, res) => {
+  try {
+    const connection = await connectDB();
+
+    const [cars] = await connection.execute(
+      "SELECT * FROM cars WHERE isAvailable = 'true' ORDER BY created_at DESC"
+      // "SELECT * FROM cars ORDER BY created_at DESC"
+    );
+
+    res.json({ success: true, cars });
+  } catch (error) {
+    console.error("Get Cars Error:", error.message);
     return res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -238,6 +256,17 @@ export const getUserData = async (req, res) => {
 //   try {
 //     const { user } = req;
 //     res.json({ success: true, user });
+//   } catch (error) {
+//     console.error("Get User Data Error:", error.message);
+//     return res.status(500).json({ success: false, message: error.message });
+//   }
+// };
+
+/* ---------------- GET ALL CAR LIST ---------------- */
+// export const getCars = async (req, res) => {
+//   try {
+//     const cars = await Car.findById({ isAvailable: true });
+//     res.json({ success: true, cars });
 //   } catch (error) {
 //     console.error("Get User Data Error:", error.message);
 //     return res.status(500).json({ success: false, message: error.message });

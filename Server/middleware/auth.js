@@ -1,6 +1,7 @@
 // Server/middleware/auth.js
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import connectDB from "../configs/db.js";
 
 export const protect = async (req, res, next) => {
   try {
@@ -20,14 +21,27 @@ export const protect = async (req, res, next) => {
         .json({ success: false, message: "Not Authorized" });
     }
 
-    const user = await User.findById(decoded.id);
+    // const user = await User.findById(decoded.id);
+    const connection = await connectDB();
+    const [rows] = await connection.execute(
+      "SELECT * FROM users WHERE id = ?",
+      [decoded.id]
+    );
+    const user = rows[0];
 
-    if (!user) {
+    // if (!user) {
+    //   return res
+    //     .status(404)
+    //     .json({ success: false, message: "User not found" });
+    // }
+
+    if (rows.length === 0) {
       return res
         .status(404)
         .json({ success: false, message: "User not found" });
     }
 
+    // delete user.password;
     delete user.password;
 
     req.user = user;

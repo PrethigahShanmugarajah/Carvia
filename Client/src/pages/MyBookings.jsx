@@ -2,19 +2,29 @@ import React, { useEffect, useState } from "react";
 import { assets, dummyMyBookingsData } from "../assets/assets";
 import Title from "../components/Title";
 import { CalendarDays, MapPin } from "lucide-react";
+import { useAppContext } from "../context/AppContext";
 
 const MyBookings = () => {
-  const currency = import.meta.env.VITE_CURRENCY;
+  const { currency, axios, user } = useAppContext();
 
   const [bookings, setBookings] = useState([]);
 
   const fetchMyBookings = async () => {
-    setBookings(dummyMyBookingsData);
+    try {
+      const { data } = await axios.get("/api/bookings/user");
+      if (data.success) {
+        setBookings(data.bookings);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   useEffect(() => {
-    fetchMyBookings();
-  }, []);
+    user && fetchMyBookings();
+  }, [user]);
 
   return (
     <div className="px-6 md:px-16 lg:px-24 xl:px-32 2xl:px-48 mt-16 text-sm max-w-7xl">
@@ -34,19 +44,18 @@ const MyBookings = () => {
             <div className="md:col-span-1">
               <div className="rounded-md overflow-hidden mb-3">
                 <img
-                  src={booking.car.image}
+                  src={booking.image}
                   alt=""
                   className="w-full h-auto aspect-video object-cover"
                 />
               </div>
 
               <p className="text-lg font-medium mt-2">
-                {booking.car.brand} {booking.car.model}
+                {booking.brand} {booking.model}
               </p>
 
               <p className="text-gray-500">
-                {booking.car.year} | {booking.car.category} |
-                {booking.car.location}
+                {booking.year} | {booking.category} |{booking.location}
               </p>
             </div>
 
@@ -64,7 +73,9 @@ const MyBookings = () => {
                       : "bg-red-400/15 text-red-600"
                   }`}
                 >
-                  {booking.status}
+                  {/* {booking.status} */}
+                  {booking.status.charAt(0).toUpperCase() +
+                    booking.status.slice(1)}
                 </p>
               </div>
 
@@ -93,7 +104,7 @@ const MyBookings = () => {
                 <MapPin className="w-4 h-4 mt-1 text-primary" />
                 <div>
                   <p className="text-gray-500">Pick-up Location</p>
-                  <p>{booking.car.location}</p>
+                  <p>{booking.location}</p>
                 </div>
               </div>
             </div>
@@ -105,7 +116,8 @@ const MyBookings = () => {
                 <h1 className="text-2xl font-semibold text-primary">
                   {currency} {booking.price}
                 </h1>
-                <p>Booked on {booking.createdAt.split("T")[0]}</p>
+                {/* <p>Booked on {booking.createdAt.split("T")[0]}</p> */}
+                <p>Booked on {booking.pickupDate.split("T")[0]}</p>
               </div>
             </div>
           </div>

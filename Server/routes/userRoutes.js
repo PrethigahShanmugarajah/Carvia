@@ -1,6 +1,7 @@
 // Server/routes/userRoutes.js
 import express from "express";
 import {
+  getCars,
   getUserData,
   loginUser,
   registerUser,
@@ -12,5 +13,6 @@ const userRouter = express.Router();
 userRouter.post("/register", registerUser);
 userRouter.post("/login", loginUser);
 userRouter.get("/data", protect, getUserData);
+userRouter.get("/cars", protect, getCars);
 
 export default userRouter;

@@ -1,6 +1,7 @@
 // Server/controllers/bookingController.js
 import Booking from "../models/Booking.js";
 import Car from "../models/Car.js";
+import connectDB from "../configs/db.js";
 
 /* ---------------- CHECK AVAILABILITY OF CAR FOR A GIVEN DATE ---------------- */
 export const checkAvailability = async (carId, pickupDate, returnDate) => {
@@ -8,10 +9,10 @@ export const checkAvailability = async (carId, pickupDate, returnDate) => {
 
   const [bookings] = await connection.execute(
     `SELECT * FROM bookings 
-     WHERE car_id = ? 
-       AND status != 'cancelled'
-       AND pickupDate <= ? 
-       AND returnDate >= ?`,
+      WHERE car_id = ?
+        AND status != 'cancelled'
+        AND pickupDate <= ? 
+        AND returnDate >= ?`,
     [carId, returnDate, pickupDate]
   );
 
@@ -65,7 +66,7 @@ export const createBooking = async (req, res) => {
     const connection = await connectDB();
 
     const [carRows] = await connection.execute(
-      "SELECT * FROM cars WHERE car_id = ?",
+      "SELECT * FROM cars WHERE id = ?",
       [car]
     );
 
@@ -87,9 +88,15 @@ export const createBooking = async (req, res) => {
     const bookingId = `B${nextId}`;
 
     await connection.execute(
-      `INSERT INTO bookings 
-        (booking_id, car_id, owner_id, user_id, pickupDate, returnDate, price) 
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO bookings(
+        booking_id, 
+        car_id, 
+        owner_id, 
+        user_id, 
+        pickupDate, 
+        returnDate, 
+        price
+      ) VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [bookingId, car, carData.owner, id, pickupDate, returnDate, price]
     );
 
@@ -98,7 +105,7 @@ export const createBooking = async (req, res) => {
       message: "Booking Created",
       booking: {
         bookingId,
-        car: carData.car_id,
+        car: carData.id,
         user: id,
         owner: carData.owner,
         pickupDate,
@@ -119,12 +126,29 @@ export const getUserBookings = async (req, res) => {
     const connection = await connectDB();
 
     const [bookings] = await connection.execute(
-      `SELECT b.booking_id, b.car_id, b.owner_id, b.pickupDate, b.returnDate, b.status, b.price,
-              c.brand, c.model, c.year, c.category, c.seating_capacity, c.fuel_type, c.transmission, c.pricePerDay, c.location, c.description, c.image
-       FROM bookings b
-       JOIN cars c ON b.car_id = c.car_id
-       WHERE b.user_id = ?
-       ORDER BY b.created_at DESC`,
+      `SELECT
+        b.booking_id, 
+        b.car_id, 
+        b.owner_id, 
+        b.pickupDate, 
+        b.returnDate, 
+        b.status, 
+        b.price,
+        c.brand, 
+        c.model, 
+        c.year, 
+        c.category, 
+        c.seating_capacity, 
+        c.fuel_type, 
+        c.transmission, 
+        c.pricePerDay, 
+        c.location, 
+        c.description, 
+        c.image
+      FROM bookings b
+      JOIN cars c ON b.car_id = c.id
+      WHERE b.user_id = ?
+      ORDER BY b.created_at DESC`,
       [id]
     );
 
@@ -151,7 +175,7 @@ export const getOwnerBookings = async (req, res) => {
               c.brand, c.model, c.year, c.category, c.seating_capacity, c.fuel_type, c.transmission, c.pricePerDay, c.location, c.description, c.image AS car_image,
               u.name AS user_name, u.email AS user_email, u.role AS user_role, u.image AS user_image
        FROM bookings b
-       JOIN cars c ON b.car_id = c.car_id
+       JOIN cars c ON b.car_id = c.id
        JOIN users u ON b.user_id = u.id
        WHERE b.owner_id = ?
        ORDER BY b.created_at DESC`,

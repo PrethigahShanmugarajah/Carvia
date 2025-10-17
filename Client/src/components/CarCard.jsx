@@ -12,7 +12,7 @@ const CarCard = ({ car }) => {
       <div
         className="relative h-48 overflow-hidden"
         onClick={() => {
-          navigate(`/car-details/${car._id}`);
+          navigate(`/car-details/${car.id}`);
           scrollTo(0, 0);
         }}
       >

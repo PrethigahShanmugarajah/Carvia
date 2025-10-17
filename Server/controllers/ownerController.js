@@ -70,9 +70,23 @@ export const addCar = async (req, res) => {
     const carId = `C${nextId}`;
 
     await connection.execute(
-      `INSERT INTO cars 
-      (id, owner, brand, model, year, category, seating_capacity, fuel_type, transmission, pricePerDay, location, description, image)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO cars (
+        id, 
+        owner, 
+        brand, 
+        model, 
+        year, 
+        category, 
+        seating_capacity, 
+        fuel_type, 
+        transmission, 
+        pricePerDay, 
+        location, 
+        description, 
+        image, 
+        isAvailable
+      )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         carId,
         ownerId,
@@ -87,6 +101,7 @@ export const addCar = async (req, res) => {
         car.location,
         car.description,
         optimizedImageUrl,
+        "true",
       ]
     );
 
@@ -135,10 +150,14 @@ export const toggleCarAvailability = async (req, res) => {
 
     const connection = await connectDB();
 
-    const [rows] = await connection.execute(
-      "SELECT * FROM cars WHERE car_id = ?",
-      [carId]
-    );
+    // const [rows] = await connection.execute(
+    //   "SELECT * FROM cars WHERE car_id = ?",
+    //   [carId]
+    // );
+
+    const [rows] = await connection.execute("SELECT * FROM cars WHERE id = ?", [
+      carId,
+    ]);
 
     if (rows.length === 0) {
       return res.status(404).json({ success: false, message: "Car not found" });
@@ -150,12 +169,27 @@ export const toggleCarAvailability = async (req, res) => {
       return res.status(403).json({ success: false, message: "Unauthorized" });
     }
 
-    const oldAvailability = car.isAvailable === 1;
-    const newAvailability = !oldAvailability;
+    // const oldAvailability = car.isAvailable === 1;
+    // const oldAvailability = car.isAvailable === "1";
+    const oldAvailability = car.isAvailable === "true";
+
+    // const newAvailability = !oldAvailability;
+    // const newAvailability = oldAvailability ? "0" : "1";
+    const newAvailability = oldAvailability ? "false" : "true";
+
+    // await connection.execute(
+    //   "UPDATE cars SET isAvailable = ?, updated_at = NOW() WHERE car_id = ?",
+    //   [newAvailability ? 1 : 0, carId]
+    // );
+
+    // await connection.execute(
+    //   "UPDATE cars SET isAvailable = ?, updated_at = NOW() WHERE id = ?",
+    //   [newAvailability ? 1 : 0, carId]
+    // );
 
     await connection.execute(
-      "UPDATE cars SET isAvailable = ?, updated_at = NOW() WHERE car_id = ?",
-      [newAvailability ? 1 : 0, carId]
+      "UPDATE cars SET isAvailable = ?, updated_at = NOW() WHERE id = ?",
+      [newAvailability, carId]
     );
 
     res.json({
@@ -178,10 +212,9 @@ export const deleteCar = async (req, res) => {
 
     const connection = await connectDB();
 
-    const [rows] = await connection.execute(
-      "SELECT * FROM cars WHERE car_id = ?",
-      [carId]
-    );
+    const [rows] = await connection.execute("SELECT * FROM cars WHERE id = ?", [
+      carId,
+    ]);
 
     if (rows.length === 0) {
       return res.status(404).json({ success: false, message: "Car not found" });
@@ -194,21 +227,23 @@ export const deleteCar = async (req, res) => {
     }
 
     await connection.execute(
-      "UPDATE cars SET owner = NULL, isAvailable = 0, updated_at = NOW() WHERE car_id = ?",
+      "UPDATE cars SET owner = NULL, isAvailable = 0, updated_at = NOW() WHERE id = ?",
       [carId]
     );
+
+    // await connection.execute("DELETE FROM cars WHERE id = ?", [carId]);
 
     res.json({
       success: true,
       message: "Car Removed",
-      previous: {
-        owner: car.owner,
-        isAvailable: car.isAvailable === 1,
-      },
-      current: {
-        owner: null,
-        isAvailable: false,
-      },
+      // previous: {
+      //   owner: car.owner,
+      //   isAvailable: car.isAvailable === 1,
+      // },
+      // current: {
+      //   owner: null,
+      //   isAvailable: false,
+      // },
     });
   } catch (error) {
     console.error("Error deleting car:", error.message);
@@ -219,7 +254,7 @@ export const deleteCar = async (req, res) => {
 /* ---------------- GET OWNER DASHBOARD DATA ---------------- */
 export const getDashboardData = async (req, res) => {
   try {
-    const { id, role } = req.user; // user ID and role
+    const { id, role } = req.user;
 
     if (role !== "owner") {
       return res.json({ success: false, message: "Unauthorized" });
@@ -233,10 +268,27 @@ export const getDashboardData = async (req, res) => {
     );
 
     const [bookings] = await connection.execute(
-      `SELECT b.booking_id, b.car_id, b.user_id, b.pickupDate, b.returnDate, b.status, b.price,
-              c.brand, c.model, c.year, c.category, c.seating_capacity, c.fuel_type, c.transmission, c.pricePerDay, c.location, c.description, c.image
+      `SELECT 
+        b.booking_id, 
+        b.car_id, 
+        b.user_id, 
+        b.pickupDate, 
+        b.returnDate, 
+        b.status, 
+        b.price,
+        c.brand, 
+        c.model, 
+        c.year, 
+        c.category, 
+        c.seating_capacity, 
+        c.fuel_type, 
+        c.transmission, 
+        c.pricePerDay, 
+        c.location, 
+        c.description, 
+        c.image
        FROM bookings b
-       JOIN cars c ON b.car_id = c.car_id
+       JOIN cars c ON b.car_id = c.id
        WHERE b.owner_id = ?
        ORDER BY b.created_at DESC`,
       [id]
@@ -245,8 +297,13 @@ export const getDashboardData = async (req, res) => {
     const pendingBookings = bookings.filter((b) => b.status === "pending");
     const completedBookings = bookings.filter((b) => b.status === "confirmed");
 
+    // const monthlyRevenue = completedBookings.reduce(
+    //   (acc, b) => acc + b.price,
+    //   0
+    // );
+
     const monthlyRevenue = completedBookings.reduce(
-      (acc, b) => acc + b.price,
+      (acc, b) => acc + parseFloat(b.price),
       0
     );
 
