@@ -1,4 +1,3 @@
-// Client/src/components/Navbar.jsx
 import React, { useState } from "react";
 import { assets } from "../assets/assets";
 import { Link, useLocation, useNavigate } from "react-router-dom";

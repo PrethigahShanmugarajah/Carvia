@@ -2,6 +2,7 @@ import React from "react";
 import Title from "./Title";
 import { assets } from "../assets/assets";
 import { Star } from "lucide-react";
+import { motion } from "motion/react";
 
 const Testimonial = () => {
   const testimonials = [
@@ -26,7 +27,6 @@ const Testimonial = () => {
       testimonial:
         "Very professional and reliable service. Renting a car has never been this easy in Sri Lanka!",
     },
-
     {
       name: "Nadeesha Perera",
       location: "Colombo, Sri Lanka",
@@ -59,7 +59,11 @@ const Testimonial = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-18">
         {testimonials.map((testimonial, index) => (
-          <div
+          <motion.div
+            initial={{ opacity: 0, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.2, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
             key={index}
             className="bg-white p-6 rounded-xl shadow-lg hover:-translate-y-1 transition-all duration-500"
           >
@@ -78,12 +82,10 @@ const Testimonial = () => {
               {Array(5)
                 .fill(0)
                 .map((_, index) => (
-                  // <img src={assets.star_icon} alt="Star Icon" key={index} />
                   <Star
                     key={index}
                     style={{
                       fill: "var(--color-primary)",
-                      // stroke: "var(--color-primary)",
                       strokeWidth: "0",
                     }}
                   />
@@ -92,7 +94,7 @@ const Testimonial = () => {
             <p className="text-gray-500 max-w-90 mt-4 font-light">
               "{testimonial.testimonial}"
             </p>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>

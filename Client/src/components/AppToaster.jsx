@@ -13,7 +13,6 @@ const AppToaster = () => {
           fontWeight: "500",
           fontSize: "14px",
         },
-
         success: {
           style: {
             background: "#22c55e",
@@ -21,7 +20,6 @@ const AppToaster = () => {
           },
           icon: null,
         },
-
         error: {
           style: {
             background: "#ef4444",
@@ -29,7 +27,6 @@ const AppToaster = () => {
           },
           icon: null,
         },
-
         warning: {
           style: {
             background: "#f97316",
@@ -37,7 +34,6 @@ const AppToaster = () => {
           },
           icon: null,
         },
-
         info: {
           style: {
             background: "#3b82f6",

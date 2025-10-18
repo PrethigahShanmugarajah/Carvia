@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Title from "../../components/owner/Title";
-import { assets } from "../../assets/assets";
 import { Check, Upload } from "lucide-react";
 import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
@@ -9,6 +8,7 @@ const AddCar = () => {
   const { axios, currency } = useAppContext();
 
   const [image, setImage] = useState(null);
+
   const [car, setCar] = useState({
     brand: "",
     model: "",
@@ -74,11 +74,6 @@ const AddCar = () => {
         {/* ---------------- Car Image ---------------- */}
         <div className="flex items-center gap-2 w-full">
           <label htmlFor="car-image">
-            {/* <img
-              src={image ? URL.createObjectURL(image) : assets.upload_icon}
-              alt=""
-              className="h-14 rounded cursor-pointer"
-            /> */}
             {image ? (
               <img
                 src={URL.createObjectURL(image)}
@@ -270,7 +265,6 @@ const AddCar = () => {
         </div>
 
         <button className="flex items-center gap-2 px-4 py-2.5 mt-4 bg-primary hover:bg-primary-dull text-white rounded-md font-medium w-max cursor-pointer">
-          {/* <img src={assets.tick_icon} alt="" /> */}
           <Check className="w-4 h-4 text-white" />
           {isLoading ? "Listing..." : "List Your Car"}
         </button>

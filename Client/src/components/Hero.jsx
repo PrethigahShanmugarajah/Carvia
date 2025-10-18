@@ -26,7 +26,7 @@ const Hero = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
-      className="h-screen flex flex-col items-center justify-center gap-14 bg-light text-center"
+      className="h-screen flex flex-col items-center justify-center gap-14 bg-light text-center  pt-20 md:pt-0"
     >
       <motion.h1
         initial={{ y: 50, opacity: 0 }}
@@ -52,6 +52,7 @@ const Hero = () => {
               onChange={(e) => setPickupLocation(e.target.value)}
             >
               <option value="">Pickup Location</option>
+
               {cityList.map((city) => (
                 <option key={city} value={city}>
                   {city}
@@ -84,7 +85,6 @@ const Hero = () => {
               onChange={(e) => setReturnDate(e.target.value)}
               type="date"
               id="return-date"
-              // min={new Date().toISOString().split("T")[0]}
               min={pickupDate || new Date().toISOString().split("T")[0]}
               className="text-sm text-gray-500"
               required
@@ -95,14 +95,9 @@ const Hero = () => {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="flex items-center justify-center gap-1 px-9 py-3 max-sm:mt-4 bg-primary hover:bg-primary-dull text-white rounded-full cursor-pointer"
+          className="flex items-center justify-center gap-1 px-9 py-3 max-sm:mt-4 bg-primary hover:bg-primary-dull text-white rounded-full cursor-pointer w-full md:w-auto mt-4 md:mt-0"
         >
           <Search className="brightness-300" />
-          {/* <img
-            src={assets.search_icon}
-            alt="Search"
-            className="brightness-300"
-          /> */}
           Search
         </motion.button>
       </motion.form>

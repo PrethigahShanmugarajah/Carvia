@@ -1,4 +1,3 @@
-// Server/configs/imageKit.js
 import ImageKit from "imagekit";
 
 const imagekit = new ImageKit({

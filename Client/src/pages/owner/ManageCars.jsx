@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { assets, dummyCarData } from "../../assets/assets";
 import Title from "../../components/owner/Title";
 import { Eye, EyeOff, Trash2 } from "lucide-react";
 import { useAppContext } from "../../context/AppContext";
@@ -23,25 +22,10 @@ const ManageCars = () => {
     }
   };
 
-  // const toggleAvailability = async (carId) => {
-  //   try {
-  //     const { data } = await axios.post("/api/owner/toggle-car", { carId });
-  //     if (data.success) {
-  //       toast.success(data.message);
-  //       fetchOwnerCars();
-  //     } else {
-  //       toast.error(data.message);
-  //     }
-  //   } catch (error) {
-  //     toast.error(error.message);
-  //   }
-  // };
-
   const toggleAvailability = async (carId) => {
     try {
       setCars((prev) =>
         prev.map((car) =>
-          // car.id === carId ? { ...car, isAvailable: !car.isAvailable } : car
           car.id === carId
             ? {
                 ...car,
@@ -143,41 +127,12 @@ const ManageCars = () => {
                         : "bg-red-100 text-red-500"
                     }`}
                   >
-                    {/* {car.isAvailable ? "Available" : "Unavailable"}*/}
                     {car.isAvailable === "true" ? "Available" : "Unavailable"}
                   </span>
                 </td>
 
-                {/* <td className="flex items-center p-3">
-                  <img
-                    src={
-                      car.isAvailable ? assets.eye_close_icon : assets.eye_icon
-                    }
-                    alt=""
-                    className="cursor-pointer"
-                  />
-
-                  <img
-                    src={assets.delete_icon}
-                    alt=""
-                    className="cursor-pointer"
-                  />
-                </td> */}
-
                 <td className="flex items-center p-3">
                   <div className="flex items-center gap-4">
-                    {/* {car.isAvailable ? (
-                      <EyeOff
-                        onClick={() => toggleAvailability(car._id)}
-                        className="w-4 h-4 cursor-pointer text-primary-dull"
-                      />
-                    ) : (
-                      <Eye
-                        onClick={() => toggleAvailability(car._id)}
-                        className="w-4 h-4 cursor-pointer text-primary"
-                      />
-                    )} */}
-
                     {car.isAvailable ? (
                       <EyeOff
                         onClick={() => toggleAvailability(car.id)}

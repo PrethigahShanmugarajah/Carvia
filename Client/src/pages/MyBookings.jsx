@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { assets, dummyMyBookingsData } from "../assets/assets";
 import Title from "../components/Title";
 import { CalendarDays, MapPin } from "lucide-react";
 import { useAppContext } from "../context/AppContext";
+import { motion } from "motion/react";
 
 const MyBookings = () => {
   const { currency, axios, user } = useAppContext();
@@ -27,7 +27,12 @@ const MyBookings = () => {
   }, [user]);
 
   return (
-    <div className="px-6 md:px-16 lg:px-24 xl:px-32 2xl:px-48 mt-16 text-sm max-w-7xl">
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="px-6 md:px-16 lg:px-24 xl:px-32 2xl:px-48 mt-16 text-sm max-w-7xl"
+    >
       <Title
         title="My Bookings"
         subTitle="View and manage your all car bookings"
@@ -36,13 +41,16 @@ const MyBookings = () => {
 
       <div>
         {bookings.map((booking, index) => (
-          <div
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1, duration: 0.4 }}
             key={bookings._id}
             className="grid grid-cols-1 md:grid-cols-4 gap-6 p-6 border border-borderColor rounded-lg mt-5 first:mt-12"
           >
             {/* ---------------- Car Image + Info ---------------- */}
             <div className="md:col-span-1">
-              <div className="rounded-md overflow-hidden mb-3">
+              <div className="rounded-md overflow-hidden mb-3 ">
                 <img
                   src={booking.image}
                   alt=""
@@ -73,18 +81,12 @@ const MyBookings = () => {
                       : "bg-red-400/15 text-red-600"
                   }`}
                 >
-                  {/* {booking.status} */}
                   {booking.status.charAt(0).toUpperCase() +
                     booking.status.slice(1)}
                 </p>
               </div>
 
               <div className="flex items-start gap-2 mt-3">
-                {/* <img
-                  src={assets.calendar_icon_colored}
-                  alt=""
-                  className="w-4 h-4 mt-1"
-                /> */}
                 <CalendarDays className="w-4 h-4 mt-1 text-primary" />
                 <div>
                   <p className="text-gray-500">Rental Period</p>
@@ -96,11 +98,6 @@ const MyBookings = () => {
               </div>
 
               <div className="flex items-start gap-2 mt-3">
-                {/* <img
-                  src={assets.location_icon}
-                  alt=""
-                  className="w-4 h-4 mt-1"
-                /> */}
                 <MapPin className="w-4 h-4 mt-1 text-primary" />
                 <div>
                   <p className="text-gray-500">Pick-up Location</p>
@@ -116,14 +113,13 @@ const MyBookings = () => {
                 <h1 className="text-2xl font-semibold text-primary">
                   {currency} {booking.price}
                 </h1>
-                {/* <p>Booked on {booking.createdAt.split("T")[0]}</p> */}
                 <p>Booked on {booking.pickupDate.split("T")[0]}</p>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

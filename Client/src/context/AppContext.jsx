@@ -40,7 +40,6 @@ export const AppProvider = ({ children }) => {
   const fetchCars = async () => {
     try {
       const { data } = await axios.get("/api/user/cars");
-      // data.success ? setCars(data.cars) : toast.error(data.message);
       const normalize = (v) =>
         v === true || v === "true" || v === "1" || v === 1;
       data.success
@@ -67,18 +66,11 @@ export const AppProvider = ({ children }) => {
   };
 
   /* ---------------- Retrive the Token from Local Storage ---------------- */
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   setToken(token);
-  //   fetchCars();
-  // }, []);
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       setToken(token);
       axios.defaults.headers.common["Authorization"] = token; // set header first
-      // fetchUser();
       fetchCars();
     }
   }, []);

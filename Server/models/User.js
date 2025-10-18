@@ -1,4 +1,3 @@
-// Server/models/User.js
 import connectDB from "../configs/db.js";
 
 class User {
@@ -11,10 +10,17 @@ class User {
       );
       const userId = `U${rows[0].count + 1}`;
 
-      const query = `
-      INSERT INTO users (id, name, email, password, role, image, created_at, updated_at)
-      VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())
-    `;
+      const query = `INSERT INTO users (
+        id, 
+        name, 
+        email, 
+        password, 
+        role, 
+        image, 
+        created_at, 
+        updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())`;
+
       await connection.execute(query, [
         userId,
         name,
@@ -68,21 +74,3 @@ class User {
 }
 
 export default User;
-
-// Server/models/User.js
-// import mongoose from "mongoose";
-
-// const userShema = new mongoose.Schema(
-//   {
-//     name: { type: String, required: true },
-//     email: { type: String, required: true, unique: true },
-//     password: { type: String, required: true },
-//     role: { type: String, enum: ["owner", "user"], default: "user" },
-//     image: { type: String, default: "" },
-//   },
-//   { timestamps: true }
-// );
-
-// const User = mongoose.model("User", userShema);
-
-// export default User;

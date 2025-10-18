@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { dummyMyBookingsData } from "../../assets/assets";
 import Title from "../../components/owner/Title";
 import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
 
 const ManageBookings = () => {
   const { currency, axios } = useAppContext();
-  // const currency = import.meta.env.VITE_CURRENCY;
 
   const [booking, setBookings] = useState([]);
 
@@ -97,7 +95,6 @@ const ManageBookings = () => {
                   {booking.status === "pending" ? (
                     <select
                       onChange={(e) =>
-                        // changeBookingStatus(booking._id, e.target.value)
                         changeBookingStatus(booking.booking_id, e.target.value)
                       }
                       value={booking.status}
@@ -115,7 +112,6 @@ const ManageBookings = () => {
                           : "bg-red-100 text-red-500"
                       }`}
                     >
-                      {/* {booking.status} */}
                       {booking.status.charAt(0).toUpperCase() +
                         booking.status.slice(1)}
                     </span>

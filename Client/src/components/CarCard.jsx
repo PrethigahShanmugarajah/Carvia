@@ -1,5 +1,4 @@
 import React from "react";
-import { assets } from "../assets/assets";
 import { Car, Fuel, MapPin, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -32,6 +31,7 @@ const CarCard = ({ car }) => {
           <span className="font-semibold">
             {currency} {car.pricePerDay}
           </span>
+
           <span className="text-sm text-white/80">/day</span>
         </div>
       </div>
@@ -42,6 +42,7 @@ const CarCard = ({ car }) => {
             <h3 className="text-lg font-medium">
               {car.brand} {car.model}
             </h3>
+
             <p className="text-muted-foreground text-sm">
               {car.category} | {car.year}
             </p>
@@ -50,25 +51,21 @@ const CarCard = ({ car }) => {
 
         <div className="mt-4 grid grid-cols-2 gap-y-2 text-gray-600">
           <div className="flex items-center text-sm text-muted-foreground">
-            {/* <img src={assets.users_icon} alt="" className="h-4 mr-2" /> */}
             <User className="h-4 mr-2 text-primary" />
             <span>{car.seating_capacity} Seats</span>
           </div>
 
           <div className="flex items-center text-sm text-muted-foreground">
-            {/* <img src={assets.fuel_icon} alt="" className="h-4 mr-2" /> */}
             <Fuel className="h-4 mr-2 text-primary" />
             <span>{car.fuel_type} </span>
           </div>
 
           <div className="flex items-center text-sm text-muted-foreground">
-            {/* <img src={assets.car_icon} alt="" className="h-4 mr-2" /> */}
             <Car className="h-4 mr-2 text-primary" />
             <span>{car.transmission} </span>
           </div>
 
           <div className="flex items-center text-sm text-muted-foreground">
-            {/* <img src={assets.location_icon} alt="" className="h-4 mr-2" /> */}
             <MapPin className="h-4 mr-2 text-primary" />
             <span>{car.location} </span>
           </div>

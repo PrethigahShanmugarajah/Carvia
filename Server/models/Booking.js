@@ -1,4 +1,3 @@
-// Server/models/Booking.js
 import connectDB from "../configs/db.js";
 
 export const Booking = {
@@ -11,11 +10,16 @@ export const Booking = {
     const nextId = rows[0].total + 1;
     const bookingId = `B${nextId}`;
 
-    const query = `
-      INSERT INTO bookings 
-      (booking_id, car_id, user_id, owner_id, pickupDate, returnDate, status, price)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    `;
+    const query = `INSERT INTO bookings (
+      booking_id, 
+      car_id, 
+      user_id, 
+      owner_id, 
+      pickupDate, 
+      returnDate, 
+      status, 
+      price
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
 
     await connection.execute(query, [
       bookingId,
@@ -69,28 +73,3 @@ export const Booking = {
 };
 
 export default Booking;
-
-// Server/models/Booking.js
-// import mongoose from "mongoose";
-// const { ObjectId } = mongoose.Schema.Types;
-
-// const bookingSchema = new mongoose.Schema(
-//   {
-//     car: { type: ObjectId, ref: "Car", required: true },
-//     user: { type: ObjectId, ref: "User", required: true },
-//     owner: { type: ObjectId, ref: "User", required: true },
-//     pickupDate: { type: Date, required: true },
-//     returnDate: { type: Date, required: true },
-//     status: {
-//       type: String,
-//       enum: ["pending", "confirmed", "cancelled"],
-//       default: "pending",
-//     },
-//     price: { type: Number, required: true },
-//   },
-//   { timestamps: true }
-// );
-
-// const Booking = mongoose.model("Booking", bookingSchema);
-
-// export default Booking;

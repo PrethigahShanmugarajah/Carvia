@@ -1,9 +1,4 @@
 import React, { useState } from "react";
-import {
-  assets,
-  dummyUserData,
-  // ownerMenuLinks
-} from "../../assets/assets";
 import { NavLink, useLocation } from "react-router-dom";
 import {
   Car,
@@ -44,7 +39,6 @@ export const ownerMenuLinks = [
 ];
 
 const Sidebar = () => {
-  // const user = dummyUserData;
   const { user, axios, fetchUser } = useAppContext();
 
   const location = useLocation();
@@ -93,7 +87,6 @@ const Sidebar = () => {
           />
 
           <div className="absolute hidden top-0 right-0 left-0 bottom-0 bg-black/10 rounded-full group-hover:flex items-center justify-center cursor-pointer">
-            {/* <img src={assets.edit_icon} alt="" /> */}
             <Edit className="w-4 h-4 text-white" />
           </div>
         </label>
@@ -104,14 +97,7 @@ const Sidebar = () => {
           className="absolute top-0 right-0 flex p-2 gap-1 bg-primary/10 text-primary cursor-pointer"
           onClick={updateImage}
         >
-          Save{" "}
-          {/* <img
-            src={assets.check_icon}
-            width={13}
-            onClick={updateImage}
-            alt=""
-          /> */}
-          <Check className="w-3.5 h-3.5 cursor-pointer" />
+          Save <Check className="w-3.5 h-3.5 cursor-pointer" />
         </button>
       )}
 
@@ -128,13 +114,6 @@ const Sidebar = () => {
                 : "text-gray-600"
             }`}
           >
-            {/* <img
-              src={
-                link.path === location.pathname ? link.coloredIcon : link.icon
-              }
-              alt="Car Icon"
-            /> */}
-
             {link.path === location.pathname ? link.coloredIcon : link.icon}
 
             <span className="max-md:hidden">{link.name}</span>

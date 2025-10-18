@@ -1,9 +1,7 @@
-// Server/routes/bookingRoutes.js
 import express from "express";
 import { protect } from "../middleware/auth.js";
 import {
   changeBookingStatus,
-  checkAvailability,
   checkAvailabilityOfCar,
   createBooking,
   getOwnerBookings,

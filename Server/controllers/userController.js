@@ -1,4 +1,3 @@
-// Server/controllers/userController.js
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -161,7 +160,6 @@ export const getCars = async (req, res) => {
 
     const [cars] = await connection.execute(
       "SELECT * FROM cars WHERE isAvailable = 'true' ORDER BY created_at DESC"
-      // "SELECT * FROM cars ORDER BY created_at DESC"
     );
 
     res.json({ success: true, cars });
@@ -170,105 +168,3 @@ export const getCars = async (req, res) => {
     return res.status(500).json({ success: false, message: error.message });
   }
 };
-
-// Server/controllers/userController.js
-// import User from "../models/User.js";
-// import bcrypt from "bcrypt";
-// import jwt from "jsonwebtoken";
-
-// /* Generate JWT Token */
-// const generateToken = (userId) => {
-//   const payload = userId;
-//   return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "7d" });
-// };
-
-// /* ---------------- Register User ---------------- */
-// export const registerUser = async (req, res) => {
-//   try {
-//     const { name, email, password, confirmPassword } = req.body;
-
-//     if (
-//       !name ||
-//       !email ||
-//       !password ||
-//       !confirmPassword ||
-//       password !== confirmPassword ||
-//       password.length < 8
-//     ) {
-//       return res.status(400).json({ message: "All fields are required" });
-//     }
-
-//     const userExists = await User.findOne({ email });
-
-//     if (userExists) {
-//       return res.json({ success: false, message: "User already exists" });
-//     }
-
-//     const hashedPassword = await bcrypt.hash(password, 10);
-
-//     const user = await User.create({ name, email, password: hashedPassword });
-
-//     const token = generateToken(user._id.toString());
-
-//     return res.json({
-//       success: true,
-//       message: "User registered successfully",
-//       token,
-//     });
-//   } catch (error) {
-//     console.error("Registration Error:", error.message);
-//     return res.json({ success: false, message: error.message });
-//   }
-// };
-
-/* ---------------- Login User ---------------- */
-// export const loginUser = async (req, res) => {
-//   try {
-//     const { email, password } = req.body;
-
-//     const user = await User.findOne({ email });
-
-//     if (!user) {
-//       return res.json({ success: false, message: "User not found" });
-//     }
-
-//     const isMatch = await bcrypt.compare(password, user.password);
-
-//     if (!isMatch) {
-//       return res.json({ success: false, message: "Invalid credentials" });
-//     }
-
-//     const token = generateToken(user._id.toString());
-
-//     return res.json({
-//       success: true,
-//       message: "User logged in successfully",
-//       token,
-//     });
-//   } catch (error) {
-//     console.error("Registration Error:", error.message);
-//     return res.json({ success: false, message: error.message });
-//   }
-// };
-
-/* ---------------- GET USER DATA ---------------- */
-// export const getUserData = async (req, res) => {
-//   try {
-//     const { user } = req;
-//     res.json({ success: true, user });
-//   } catch (error) {
-//     console.error("Get User Data Error:", error.message);
-//     return res.status(500).json({ success: false, message: error.message });
-//   }
-// };
-
-/* ---------------- GET ALL CAR LIST ---------------- */
-// export const getCars = async (req, res) => {
-//   try {
-//     const cars = await Car.findById({ isAvailable: true });
-//     res.json({ success: true, cars });
-//   } catch (error) {
-//     console.error("Get User Data Error:", error.message);
-//     return res.status(500).json({ success: false, message: error.message });
-//   }
-// };
